@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="School Fund Payment Dashboard - Track student payments">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>School Fund Dashboard</title>
+  <style>
+    /* ========== CSS RESET & BASE ========== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --white: #ffffff;
+      --bg: #f1f5f9;
+      --bg-alt: #f8fafc;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-ghost: rgba(99, 102, 241, 0.08);
+      --green: #22c55e;
+      --green-light: #dcfce7;
+      --green-bg: rgba(34, 197, 94, 0.1);
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --red-bg: rgba(239, 68, 68, 0.1);
+      --amber: #f59e0b;
+      --amber-light: #fef3c7;
+      --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+      --shadow-xl: 0 20px 40px -8px rgba(0,0,0,0.1);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-xs: 8px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.92);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .logo-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .logo-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: -2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pwa-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* ========== STATS CARDS ========== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-xs);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .stat-card:nth-child(1)::after { background: var(--primary); }
+    .stat-card:nth-child(2)::after { background: var(--green); }
+    .stat-card:nth-child(3)::after { background: var(--red); }
+    .stat-card:nth-child(4)::after { background: var(--amber); }
+
+    .stat-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .stat-card .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .stat-card:nth-child(1) .stat-icon { background: var(--primary-light); }
+    .stat-card:nth-child(2) .stat-icon { background: var(--green-light); }
+    .stat-card:nth-child(3) .stat-icon { background: var(--red-light); }
+    .stat-card:nth-child(4) .stat-icon { background: var(--amber-light); }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    /* ========== SECTION CARDS ========== */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-xs);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-header h2 {
+      font-size: 17px;
+      font-weight: 650;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header h2 span.icon {
+      font-size: 20px;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    /* ========== REGISTRATION FORM ========== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 11px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: var(--white);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: var(--red);
+      font-weight: 500;
+      min-height: 18px;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1.5px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-ghost);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 2px 8px rgba(34,197,94,0.25);
+    }
+
+    .btn-green:hover {
+      background: #16a34a;
+      box-shadow: 0 4px 14px rgba(34,197,94,0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid var(--red-light);
+      padding: 7px 14px;
+      font-size: 13px;
+      border-radius: var(--radius-xs);
+    }
+
+    .btn-danger:hover {
+      background: var(--red);
+      color: white;
+      border-color: var(--red);
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-xs);
+    }
+
+    /* ========== TOOLBAR ========== */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+      min-width: 200px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 16px 10px 42px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: var(--bg-alt);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+      background: var(--white);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xs);
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-secondary);
+      background: var(--bg-alt);
+      cursor: pointer;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+
+    /* ========== TABLE ========== */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+    }
+
+    .table-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .table-wrapper::-webkit-scrollbar-track {
+      background: var(--bg);
+      border-radius: 3px;
+    }
+
+    .table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+
+    thead {
+      background: var(--bg-alt);
+      border-bottom: 2px solid var(--border-light);
+    }
+
+    thead th {
+      padding: 14px 16px;
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    thead th:first-child,
+    thead th:nth-child(2) {
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    tbody tr:hover {
+      background: var(--primary-ghost);
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody td {
+      padding: 12px 16px;
+      font-size: 14px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    tbody td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    tbody td:nth-child(2) {
+      text-align: left;
+    }
+
+    .class-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* ========== PAYMENT TOGGLE BUTTON ========== */
+    .pay-toggle {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pay-toggle.unpaid {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+
+    .pay-toggle.paid {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .pay-toggle:hover {
+      transform: scale(1.15);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pay-toggle:active {
+      transform: scale(0.92);
+    }
+
+    .pay-toggle.animate {
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0.5; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .empty-state .empty-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ========== NOTIFICATIONS ========== */
+    .notification-container {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .notification {
+      padding: 14px 22px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-width: 380px;
+      border-left: 4px solid;
+    }
+
+    .notification.success {
+      background: var(--white);
+      color: #166534;
+      border-color: var(--green);
+    }
+
+    .notification.error {
+      background: var(--white);
+      color: #991b1b;
+      border-color: var(--red);
+    }
+
+    .notification.info {
+      background: var(--white);
+      color: #1e40af;
+      border-color: var(--primary);
+    }
+
+    .notification.slide-out {
+      animation: slideOut 0.3s ease-in forwards;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(120%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(120%); opacity: 0; }
+    }
+
+    /* ========== CONFIRM MODAL ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--red-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 18px;
+    }
+
+    .modal h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .modal p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+
+    /* ========== ROW ANIMATION ========== */
+    .row-enter {
+      animation: rowFadeIn 0.4s ease-out;
+    }
+
+    @keyframes rowFadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .row-exit {
+      animation: rowFadeOut 0.3s ease-in forwards;
+    }
+
+    @keyframes rowFadeOut {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(-30px); }
+    }
+
+    /* ========== PROGRESS BAR ========== */
+    .progress-bar-track {
+      width: 100%;
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(90deg, var(--primary), #8b5cf6);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px;
+      }
+
+      .header-inner {
+        padding: 14px 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 18px 16px;
+      }
+
+      .stat-value {
+        font-size: 24px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .btn {
+        justify-content: center;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .toolbar-left {
+        flex-direction: column;
+      }
+
+      .toolbar-right {
+        justify-content: stretch;
+      }
+
+      .toolbar-right .btn {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .search-box {
+        max-width: 100%;
+      }
+
+      .card-header {
+        padding: 16px 18px;
+      }
+
+      .card-body {
+        padding: 18px;
+      }
+
+      .notification-container {
+        right: 16px;
+        left: 16px;
+      }
+
+      .notification {
+        max-width: 100%;
+      }
+
+      .logo-text h1 {
+        font-size: 17px;
+      }
+
+      .pwa-badge {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .modal {
+        padding: 24px;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+
+    /* ========== EXPORT ANIMATION ========== */
+    .export-anim {
+      animation: exportPulse 0.6s ease;
+    }
+
+    @keyframes exportPulse {
+      0% { transform: scale(1); }
+      30% { transform: scale(0.95); }
+      60% { transform: scale(1.05); box-shadow: 0 4px 20px rgba(34,197,94,0.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo-section">
+        <div class="logo-icon">🎓</div>
+        <div class="logo-text">
+          <h1>Fund Dashboard</h1>
+          <p>Student Payment Tracker</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="pwa-badge">PWA Ready</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NOTIFICATIONS -->
+  <div class="notification-container" id="notificationContainer"></div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <div class="modal-icon">🗑️</div>
+      <h3>Delete Student</h3>
+      <p id="deleteModalText">Are you sure you want to remove this student? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn" style="background:var(--red);color:white;border-color:var(--red);">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- STATS SECTION -->
+    <section class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-icon">👨‍🎓</div>
+        <div class="stat-label">Total Students</div>
+        <div class="stat-value" id="statStudents">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-label">Paid Months</div>
+        <div class="stat-value" id="statPaid">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">❌</div>
+        <div class="stat-label">Unpaid Months</div>
+        <div class="stat-value" id="statUnpaid">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-label">Paid Percentage</div>
+        <div class="stat-value" id="statPercent">0%</div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTRATION FORM -->
+    <section class="card">
+      <div class="card-header">
+        <h2><span class="icon">📝</span> Register New Student</h2>
+      </div>
+      <div class="card-body">
+        <form id="registrationForm" class="form-grid" autocomplete="off">
+          <div class="form-group">
+            <label for="studentName">Full Name</label>
+            <input type="text" id="studentName" placeholder="e.g. John Smith" maxlength="60">
+            <div class="error-msg" id="nameError"></div>
+          </div>
+          <div class="form-group">
+            <label for="studentClass">Class</label>
+            <input type="text" id="studentClass" placeholder="e.g. 10-A" maxlength="20">
+            <div class="error-msg" id="classError"></div>
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Register
+            </button>
+            <div class="error-msg"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- DASHBOARD TABLE -->
+    <section class="card">
+      <div class="card-header">
+        <h2><span class="icon">📋</span> Payment Dashboard</h2>
+      </div>
+      <div class="card-body">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchInput" placeholder="Search student name...">
+            </div>
+            <select class="filter-select" id="filterSelect">
+              <option value="all">Show All</option>
+              <option value="unpaid">Unpaid Students</option>
+              <option value="fullypaid">Fully Paid Students</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-green btn-sm" id="exportBtn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+          <table id="dashboardTable">
+            <thead>
+              <tr>
+                <th style="text-align:left">Name</th>
+                <th style="text-align:left">Class</th>
+                <th>Sep</th>
+                <th>Oct</th>
+                <th>Nov</th>
+                <th>Dec</th>
+                <th>Jan</th>
+                <th>Feb</th>
+                <th>Mar</th>
+                <th>Apr</th>
+                <th>May</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Dynamic rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+          <div class="empty-icon">📭</div>
+          <h3>No students registered yet</h3>
+          <p>Add your first student using the registration form above to start tracking payments.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    School Fund Payment Dashboard &copy; <span id="footerYear"></span> &mdash; Built with care.
+  </footer>
+
+  <script>
+    // ============================================================
+    // SCHOOL FUND PAYMENT DASHBOARD - MAIN JAVASCRIPT
+    // ============================================================
+
+    // === CONSTANTS ===
+    const MONTHS = [
+      'september', 'october', 'november', 'december',
+      'january', 'february', 'march', 'april', 'may'
+    ];
+    const MONTH_LABELS = ['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+    const STORAGE_KEY = 'schoolFundStudents';
+
+    // === DOM REFERENCES ===
+    const registrationForm = document.getElementById('registrationForm');
+    const studentNameInput = document.getElementById('studentName');
+    const studentClassInput = document.getElementById('studentClass');
+    const nameError = document.getElementById('nameError');
+    const classError = document.getElementById('classError');
+    const tableBody = document.getElementById('tableBody');
+    const emptyState = document.getElementById('emptyState');
+    const searchInput = document.getElementById('searchInput');
+    const filterSelect = document.getElementById('filterSelect');
+    const exportBtn = document.getElementById('exportBtn');
+    const notificationContainer = document.getElementById('notificationContainer');
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteModalText = document.getElementById('deleteModalText');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+
+    // Stat elements
+    const statStudents = document.getElementById('statStudents');
+    const statPaid = document.getElementById('statPaid');
+    const statUnpaid = document.getElementById('statUnpaid');
+    const statPercent = document.getElementById('statPercent');
+    const progressBar = document.getElementById('progressBar');
+
+    // Footer year
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // === DATA ===
+    let students = loadStudents();
+    let pendingDeleteId = null;
+
+    // === LOCAL STORAGE FUNCTIONS ===
+
+    /** Load students array from localStorage */
+    function loadStudents() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      } catch (e) {
+        console.error('Error loading data:', e);
+        return [];
+      }
+    }
+
+    /** Save students array to localStorage */
+    function saveStudents() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+      } catch (e) {
+        console.error('Error saving data:', e);
+      }
+    }
+
+    /** Generate a unique ID */
+    function generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+    }
+
+    // === NOTIFICATION SYSTEM ===
+
+    /** Show a toast notification */
+    function showNotification(message, type = 'success') {
+      const icons = { success: '✅', error: '⚠️', info: 'ℹ️' };
+      const notif = document.createElement('div');
+      notif.className = `notification ${type}`;
+      notif.innerHTML = `<span>${icons[type] || ''}</span><span>${message}</span>`;
+      notificationContainer.appendChild(notif);
+
+      // Auto-remove after 3.5 seconds
+      setTimeout(() => {
+        notif.classList.add('slide-out');
+        notif.addEventListener('animationend', () => notif.remove());
+      }, 3500);
+    }
+
+    // === STATISTICS ===
+
+    /** Update dashboard statistics */
+    function updateStats() {
+      const totalStudents = students.length;
+      let totalPaid = 0;
+      let totalUnpaid = 0;
+
+      students.forEach(student => {
+        MONTHS.forEach(month => {
+          if (student.payments[month]) {
+            totalPaid++;
+          } else {
+            totalUnpaid++;
+          }
+        });
+      });
+
+      const totalMonths = totalPaid + totalUnpaid;
+      const percent = totalMonths > 0 ? Math.round((totalPaid / totalMonths) * 100) : 0;
+
+      // Animate stat numbers
+      animateValue(statStudents, totalStudents);
+      animateValue(statPaid, totalPaid);
+      animateValue(statUnpaid, totalUnpaid);
+      statPercent.textContent = percent + '%';
+      progressBar.style.width = percent + '%';
+    }
+
+    /** Simple number animation */
+    function animateValue(element, target) {
+      const current = parseInt(element.textContent) || 0;
+      if (current === target) return;
+      element.textContent = target;
+    }
+
+    // === FORM VALIDATION & REGISTRATION ===
+
+    /** Validate registration form */
+    function validateForm() {
+      let valid = true;
+      const name = studentNameInput.value.trim();
+      const cls = studentClassInput.value.trim();
+
+      // Clear previous errors
+      nameError.textContent = '';
+      classError.textContent = '';
+      studentNameInput.classList.remove('error');
+      studentClassInput.classList.remove('error');
+
+      if (!name) {
+        nameError.textContent = 'Full name is required';
+        studentNameInput.classList.add('error');
+        valid = false;
+      }
+
+      if (!cls) {
+        classError.textContent = 'Class is required';
+        studentClassInput.classList.add('error');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    /** Handle form submission */
+    registrationForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (!validateForm()) return;
+
+      const name = studentNameInput.value.trim();
+      const cls = studentClassInput.value.trim();
+
+      // Create student object
+      const newStudent = {
+        id: generateId(),
+        fullName: name,
+        className: cls,
+        payments: {}
+      };
+
+      // Initialize all months as unpaid
+      MONTHS.forEach(month => {
+        newStudent.payments[month] = false;
+      });
+
+      // Add and save
+      students.push(newStudent);
+      saveStudents();
+
+      // Reset form
+      studentNameInput.value = '';
+      studentClassInput.value = '';
+      studentNameInput.classList.remove('error');
+      studentClassInput.classList.remove('error');
+      nameError.textContent = '';
+      classError.textContent = '';
+
+      // Refresh UI
+      renderTable();
+      updateStats();
+      showNotification(`${name} has been registered successfully!`, 'success');
+    });
+
+    // Remove error styling on input
+    studentNameInput.addEventListener('input', () => {
+      studentNameInput.classList.remove('error');
+      nameError.textContent = '';
+    });
+    studentClassInput.addEventListener('input', () => {
+      studentClassInput.classList.remove('error');
+      classError.textContent = '';
+    });
+
+    // === TABLE RENDERING ===
+
+    /** Get filtered students based on search and filter */
+    function getFilteredStudents() {
+      const query = searchInput.value.trim().toLowerCase();
+      const filter = filterSelect.value;
+
+      return students.filter(student => {
+        // Name search
+        const matchesSearch = !query || student.fullName.toLowerCase().includes(query);
+
+        // Filter
+        let matchesFilter = true;
+        if (filter === 'unpaid') {
+          // Has at least one unpaid month
+          matchesFilter = MONTHS.some(m => !student.payments[m]);
+        } else if (filter === 'fullypaid') {
+          // All months paid
+          matchesFilter = MONTHS.every(m => student.payments[m]);
+        }
+
+        return matchesSearch && matchesFilter;
+      });
+    }
+
+    /** Render the dashboard table */
+    function renderTable() {
+      const filtered = getFilteredStudents();
+      tableBody.innerHTML = '';
+
+      if (students.length === 0) {
+        emptyState.style.display = 'block';
+        document.querySelector('.table-wrapper').style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = filtered.length === 0 && students.length > 0 ? 'block' : 'none';
+      document.querySelector('.table-wrapper').style.display = filtered.length === 0 ? 'none' : 'block';
+
+      if (filtered.length === 0 && students.length > 0) {
+        emptyState.querySelector('h3').textContent = 'No matching students found';
+        emptyState.querySelector('p').textContent = 'Try adjusting your search or filter criteria.';
+        emptyState.querySelector('.empty-icon').textContent = '🔍';
+      } else if (students.length === 0) {
+        emptyState.querySelector('h3').textContent = 'No students registered yet';
+        emptyState.querySelector('p').textContent = 'Add your first student using the registration form above to start tracking payments.';
+        emptyState.querySelector('.empty-icon').textContent = '📭';
+      }
+
+      filtered.forEach(student => {
+        const tr = document.createElement('tr');
+        tr.className = 'row-enter';
+        tr.dataset.id = student.id;
+
+        // Name cell
+        const tdName = document.createElement('td');
+        tdName.textContent = student.fullName;
+        tr.appendChild(tdName);
+
+        // Class cell
+        const tdClass = document.createElement('td');
+        tdClass.innerHTML = `<span class="class-badge">${escapeHtml(student.className)}</span>`;
+        tr.appendChild(tdClass);
+
+        // Month payment toggle cells
+        MONTHS.forEach(month => {
+          const tdMonth = document.createElement('td');
+          const btn = document.createElement('button');
+          const isPaid = student.payments[month];
+
+          btn.className = `pay-toggle ${isPaid ? 'paid' : 'unpaid'}`;
+          btn.textContent = isPaid ? '✅' : '❌';
+          btn.title = `${month.charAt(0).toUpperCase() + month.slice(1)}: ${isPaid ? 'Paid' : 'Unpaid'}`;
+          btn.setAttribute('aria-label', `Toggle ${month} payment for ${student.fullName}`);
+
+          btn.addEventListener('click', () => {
+            togglePayment(student.id, month, btn);
+          });
+
+          tdMonth.appendChild(btn);
+          tr.appendChild(tdMonth);
+        });
+
+        // Delete cell
+        const tdAction = document.createElement('td');
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn btn-danger btn-sm';
+        delBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>`;
+        delBtn.title = 'Delete student';
+        delBtn.addEventListener('click', () => {
+          showDeleteModal(student.id, student.fullName);
+        });
+        tdAction.appendChild(delBtn);
+        tr.appendChild(tdAction);
+
+        tableBody.appendChild(tr);
+      });
+    }
+
+    /** Escape HTML to prevent XSS */
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // === PAYMENT TOGGLE ===
+
+    /** Toggle a student's payment status for a month */
+    function togglePayment(studentId, month, btn) {
+      const student = students.find(s => s.id === studentId);
+      if (!student) return;
+
+      // Toggle
+      student.payments[month] = !student.payments[month];
+      const isPaid = student.payments[month];
+
+      // Update button
+      btn.className = `pay-toggle ${isPaid ? 'paid' : 'unpaid'} animate`;
+      btn.textContent = isPaid ? '✅' : '❌';
+      btn.title = `${month.charAt(0).toUpperCase() + month.slice(1)}: ${isPaid ? 'Paid' : 'Unpaid'}`;
+
+      // Remove animation class after it completes
+      btn.addEventListener('animationend', () => {
+        btn.classList.remove('animate');
+      }, { once: true });
+
+      // Save and update stats
+      saveStudents();
+      updateStats();
+    }
+
+    // === DELETE ===
+
+    /** Show the delete confirmation modal */
+    function showDeleteModal(id, name) {
+      pendingDeleteId = id;
+      deleteModalText.textContent = `Are you sure you want to remove "${name}" from the dashboard? This action cannot be undone.`;
+      deleteModal.classList.add('active');
+    }
+
+    /** Hide the delete modal */
+    function hideDeleteModal() {
+      deleteModal.classList.remove('active');
+      pendingDeleteId = null;
+    }
+
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (pendingDeleteId) {
+        // Animate row out
+        const row = tableBody.querySelector(`tr[data-id="${pendingDeleteId}"]`);
+        if (row) {
+          row.classList.add('row-exit');
+          row.addEventListener('animationend', () => {
+            students = students.filter(s => s.id !== pendingDeleteId);
+            saveStudents();
+            renderTable();
+            updateStats();
+            showNotification('Student removed successfully', 'info');
+            hideDeleteModal();
+          });
+        } else {
+          students = students.filter(s => s.id !== pendingDeleteId);
+          saveStudents();
+          renderTable();
+          updateStats();
+          showNotification('Student removed successfully', 'info');
+          hideDeleteModal();
+        }
+      }
+    });
+
+    cancelDeleteBtn.addEventListener('click', hideDeleteModal);
+
+    // Close modal on overlay click
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === deleteModal) hideDeleteModal();
+    });
+
+    // === SEARCH & FILTER ===
+
+    searchInput.addEventListener('input', renderTable);
+    filterSelect.addEventListener('change', renderTable);
+
+    // === EXPORT TO CSV ===
+
+    exportBtn.addEventListener('click', () => {
+      if (students.length === 0) {
+        showNotification('No data to export!', 'error');
+        return;
+      }
+
+      // Animation
+      exportBtn.classList.add('export-anim');
+      exportBtn.addEventListener('animationend', () => {
+        exportBtn.classList.remove('export-anim');
+      }, { once: true });
+
+      // Build CSV
+      const headers = ['Full Name', 'Class', ...MONTH_LABELS.map((label, i) =>
+        MONTHS[i].charAt(0).toUpperCase() + MONTHS[i].slice(1)
+      )];
+
+      const rows = students.map(student => {
+        return [
+          `"${student.fullName.replace(/"/g, '""')}"`,
+          `"${student.className.replace(/"/g, '""')}"`,
+          ...MONTHS.map(m => student.payments[m] ? 'Paid' : 'Unpaid')
+        ];
+      });
+
+      const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+      // Create and trigger download
+      const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const year = new Date().getFullYear();
+      link.href = url;
+      link.download = `fund_dashboard_export_${year}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showNotification(`Exported ${students.length} student(s) to CSV!`, 'success');
+    });
+
+    // === PWA / SERVICE WORKER REGISTRATION ===
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered:', reg.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+
+    // === KEYBOARD SHORTCUT ===
+    document.addEventListener('keydown', (e) => {
+      // Escape closes modal
+      if (e.key === 'Escape') {
+        hideDeleteModal();
+      }
+    });
+
+    // === INITIALIZATION ===
+
+    function init() {
+      renderTable();
+      updateStats();
+    }
+
+    init();
+  </script>
+</body>
+</html>
