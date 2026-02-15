@@ -176,7 +176,7 @@
       border-radius: var(--radius) var(--radius) 0 0;
     }
 
-    <<<<<<< HEAD .stat-card:nth-child(1)::after {
+    .stat-card:nth-child(1)::after {
       background: var(--primary);
     }
 
@@ -192,23 +192,9 @@
       background: var(--amber);
     }
 
-    =======.stat-card:nth-child(1)::after {
-      background: var(--primary);
-    }
 
-    .stat-card:nth-child(2)::after {
-      background: var(--green);
-    }
 
-    .stat-card:nth-child(3)::after {
-      background: var(--red);
-    }
-
-    .stat-card:nth-child(4)::after {
-      background: var(--amber);
-    }
-
-    >>>>>>>7c08f4c5f877363cd84b59ad28a5a5dae7112523 .stat-card:hover {
+    .stat-card:hover {
       box-shadow: var(--shadow-md);
       transform: translateY(-2px);
     }
@@ -224,7 +210,7 @@
       margin-bottom: 14px;
     }
 
-    <<<<<<< HEAD .stat-card:nth-child(1) .stat-icon {
+    .stat-card:nth-child(1) .stat-icon {
       background: var(--primary-light);
     }
 
@@ -240,23 +226,9 @@
       background: var(--amber-light);
     }
 
-    =======.stat-card:nth-child(1) .stat-icon {
-      background: var(--primary-light);
-    }
 
-    .stat-card:nth-child(2) .stat-icon {
-      background: var(--green-light);
-    }
 
-    .stat-card:nth-child(3) .stat-icon {
-      background: var(--red-light);
-    }
-
-    .stat-card:nth-child(4) .stat-icon {
-      background: var(--amber-light);
-    }
-
-    >>>>>>>7c08f4c5f877363cd84b59ad28a5a5dae7112523 .stat-label {
+    .stat-label {
       font-size: 13px;
       font-weight: 500;
       color: var(--text-muted);
@@ -493,9 +465,8 @@
 
     .search-box input:focus {
       border-color: var(--primary);
-      <<<<<<< HEAD box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-      =======box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-      >>>>>>>7c08f4c5f877363cd84b59ad28a5a5dae7112523 background: var(--white);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      background: var(--white);
     }
 
     .search-box .search-icon {
@@ -523,9 +494,7 @@
 
     .filter-select:focus {
       border-color: var(--primary);
-      <<<<<<< HEAD box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-      =======box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-      >>>>>>>7c08f4c5f877363cd84b59ad28a5a5dae7112523
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     }
 
     /* ========== TABLE ========== */
@@ -656,7 +625,7 @@
     }
 
     @keyframes popIn {
-      <<<<<<< HEAD 0% {
+      0% {
         transform: scale(0.6);
         opacity: 0.5;
       }
@@ -670,21 +639,8 @@
         opacity: 1;
       }
 
-      =======0% {
-        transform: scale(0.6);
-        opacity: 0.5;
-      }
 
-      50% {
-        transform: scale(1.2);
-      }
 
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      >>>>>>>7c08f4c5f877363cd84b59ad28a5a5dae7112523
     }
 
     /* ========== EMPTY STATE ========== */
@@ -1082,11 +1038,9 @@
       </div>
       <div class="header-actions">
         <span class="pwa-badge">PWA Ready</span>
-        <<<<<<< HEAD <button id="pwa-install-btn" class="btn btn-primary btn-sm" style="display: none;">
+        <button id="pwa-install-btn" class="btn btn-primary btn-sm" style="display: none;">
           Install App
-          </button>
-          =======
-          >>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
+        </button>
       </div>
     </div>
   </header>
@@ -1102,12 +1056,8 @@
       <p id="deleteModalText">Are you sure you want to remove this student? This action cannot be undone.</p>
       <div class="modal-actions">
         <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
-        <<<<<<< HEAD <button class="btn btn-danger" id="confirmDeleteBtn"
+        <button class="btn btn-danger" id="confirmDeleteBtn"
           style="background:var(--red);color:white;border-color:var(--red);">Delete</button>
-          =======
-          <button class="btn btn-danger" id="confirmDeleteBtn"
-            style="background:var(--red);color:white;border-color:var(--red);">Delete</button>
-          >>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
       </div>
     </div>
   </div>
@@ -1117,13 +1067,10 @@
     <!-- STATS SECTION -->
     <section class="stats-grid" id="statsGrid">
       <div class="stat-card">
-        <<<<<<< HEAD <div class="pwa-badge">Beta
-      </div>
-      =======
-      >>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
-      <div class="stat-icon">👨‍🎓</div>
-      <div class="stat-label">Total Students</div>
-      <div class="stat-value" id="statStudents">0</div>
+
+        <div class="stat-icon">👨‍🎓</div>
+        <div class="stat-label">Total Students</div>
+        <div class="stat-value" id="statStudents">0</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">✅</div>
@@ -1165,19 +1112,12 @@
           <div class="form-group">
             <label>&nbsp;</label>
             <button type="submit" class="btn btn-primary">
-              <<<<<<< HEAD <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5" stroke-linecap="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                =======
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  stroke-linecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                >>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
-                Register
+              </svg>
+              Register
             </button>
             <div class="error-msg"></div>
           </div>
@@ -1206,21 +1146,13 @@
           </div>
           <div class="toolbar-right">
             <button class="btn btn-green btn-sm" id="exportBtn">
-              <<<<<<< HEAD <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                =======
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                >>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
-                Export CSV
+              </svg>
+              Export CSV
             </button>
           </div>
         </div>
@@ -1274,11 +1206,7 @@
       'september', 'october', 'november', 'december',
       'january', 'february', 'march', 'april', 'may'
     ];
-<<<<<<< HEAD
     const MONTH_LABELS = ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May'];
-=======
-    const MONTH_LABELS = ['Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
->>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
     const STORAGE_KEY = 'schoolFundStudents';
 
     // === DOM REFERENCES ===
@@ -1422,11 +1350,7 @@
     }
 
     /** Handle form submission */
-<<<<<<< HEAD
     registrationForm.addEventListener('submit', function (e) {
-=======
-    registrationForm.addEventListener('submit', function(e) {
->>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
       e.preventDefault();
 
       if (!validateForm()) return;
@@ -1713,7 +1637,6 @@
       });
     }
 
-<<<<<<< HEAD
     // === PWA INSTALLATION LOGIC ===
     let deferredPrompt;
     const installBtn = document.getElementById('pwa-install-btn');
@@ -1750,15 +1673,13 @@
       console.log('PWA was installed');
     });
 
-=======
->>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
     // === KEYBOARD SHORTCUT ===
     document.addEventListener('keydown', (e) => {
       // Escape closes modal
       if (e.key === 'Escape') {
         hideDeleteModal();
       }
-    });
+    }); 
 
     // === INITIALIZATION ===
 
@@ -1770,8 +1691,4 @@
     init();
   </script>
 </body>
-<<<<<<< HEAD </html>
-  =======
-
 </html>
->>>>>>> 7c08f4c5f877363cd84b59ad28a5a5dae7112523
